@@ -1,0 +1,56 @@
+[
+  {
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "age": 28,
+    "gender": "Female",
+    "height": 165,
+    "currentWeight": 60,
+    "goalWeight": 50,
+    "workoutGoal": "Maintain fitness",
+    "workoutPlans": [
+      "Full Body Circuit",
+      "Morning Yoga"
+    ],
+    "achievements": [
+      "First Workout",
+      "Completed 7 Days"
+    ]
+  },
+  {
+    "firstName": "Naa",
+    "lastName": "Doku",
+    "age": 27,
+    "gender": "Female",
+    "height": 0,
+    "currentWeight": 0,
+    "goalWeight": 0,
+    "workoutGoal": "",
+    "workoutPlans": [],
+    "achievements": []
+  },
+  {
+    "firstName": "Naa",
+    "lastName": "Doku",
+    "age": 67,
+    "gender": "Female",
+    "height": 0,
+    "currentWeight": 0,
+    "goalWeight": 0,
+    "workoutGoal": "",
+    "workoutPlans": [],
+    "achievements": []
+  },
+  {
+    "firstName": "Maame Bemaa",
+    "lastName": "Ansong",
+    "age": 45,
+    "gender": "Female",
+    "height": 0,
+    "currentWeight": 0,
+    "goalWeight": 0,
+    "workoutGoal": "",
+    "workoutPlans": [],
+    "achievements": []
+  }
+]
