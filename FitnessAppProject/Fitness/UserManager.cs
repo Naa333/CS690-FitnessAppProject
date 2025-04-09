@@ -39,10 +39,22 @@ public class UserManager
     {
         
         Console.Write("First name: ");
-        string firstName = Console.ReadLine() ?? "";  //?? "": if null, then replace with ""
+        string firstName = Console.ReadLine() ?? "";
+        while (string.IsNullOrWhiteSpace(firstName))
+        {
+            AnsiConsole.MarkupLine("[red]First name cannot be empty.[/]");
+            Console.Write("First name: ");
+            firstName = Console.ReadLine() ?? "";
+        }
         
         Console.Write("Last name: ");
         string lastName = Console.ReadLine() ?? "";
+        while (string.IsNullOrWhiteSpace(lastName))
+        {
+            AnsiConsole.MarkupLine("[red]Last name cannot be empty.[/]");
+            Console.Write("Last name: ");
+            lastName = Console.ReadLine() ?? "";
+        }
 
         int age;
         Console.Write("Age: ");
@@ -54,6 +66,19 @@ public class UserManager
         
         Console.Write("Gender: ");
         string gender = Console.ReadLine() ?? "";
+        
+
+
+        var existingUser = fileSaver.LoadAllUsers().FirstOrDefault(u =>
+            u.FirstName.Equals(firstName, StringComparison.OrdinalIgnoreCase) &&
+            u.LastName.Equals(lastName, StringComparison.OrdinalIgnoreCase)
+        );
+
+        if (existingUser != null)
+        {
+            AnsiConsole.MarkupLine("[red]User already exists![/]");
+            return existingUser;
+        }
 
         //create a new user from the entries
         UserInfo newUser = new UserInfo(firstName, lastName, age, gender); 
@@ -85,5 +110,10 @@ public class UserManager
     public UserInfo? GetLoggedInUser()
     {
         return loggedInUser;
+    }
+
+    public void UpdateUser(UserInfo updatedUser)
+    {
+        fileSaver.UpdateUser(updatedUser);
     }
 }

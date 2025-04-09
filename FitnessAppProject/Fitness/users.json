@@ -10,7 +10,11 @@
     "workoutGoal": "Maintain fitness",
     "workoutPlans": [
       "Full Body Circuit",
-      "Morning Yoga"
+      "Morning Yoga",
+      "Jogging",
+      "Weightlifting",
+      "Running",
+      "Running"
     ],
     "achievements": [
       "First Workout",
@@ -26,7 +30,9 @@
     "currentWeight": 0,
     "goalWeight": 0,
     "workoutGoal": "",
-    "workoutPlans": [],
+    "workoutPlans": [
+      "Jogging"
+    ],
     "achievements": []
   },
   {
@@ -45,6 +51,30 @@
     "firstName": "Maame Bemaa",
     "lastName": "Ansong",
     "age": 45,
+    "gender": "Female",
+    "height": 0,
+    "currentWeight": 0,
+    "goalWeight": 0,
+    "workoutGoal": "",
+    "workoutPlans": [],
+    "achievements": []
+  },
+  {
+    "firstName": "",
+    "lastName": "",
+    "age": 3,
+    "gender": "e",
+    "height": 0,
+    "currentWeight": 0,
+    "goalWeight": 0,
+    "workoutGoal": "",
+    "workoutPlans": [],
+    "achievements": []
+  },
+  {
+    "firstName": "Priscilla",
+    "lastName": "Doku",
+    "age": 34,
     "gender": "Female",
     "height": 0,
     "currentWeight": 0,

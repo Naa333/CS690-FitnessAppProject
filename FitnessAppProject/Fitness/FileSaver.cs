@@ -1,60 +1,51 @@
-namespace Fitness;
-
-using System.Collections.Generic;
-using System.IO;
+// FileSaver.cs
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Spectre.Console; 
+using System.IO;
+using System.Collections.Generic;
 
-public class FileSaver
+namespace Fitness
 {
-    private string fileName;
-
-    public FileSaver(string fileName)
+    public class FileSaver
     {
-        this.fileName = fileName;
-        if (!File.Exists(this.fileName))
+        private string filePath;
+
+        public FileSaver(string path)
         {
-            File.Create(this.fileName).Close();
+            filePath = path;
         }
-    }
 
-    public void SaveUser(UserInfo user)
-    {
-        List<UserInfo> allUsers = LoadAllUsers();
-        allUsers.Add(user);
-        SaveAllUsers(allUsers);
-    }
-
-    public List<UserInfo> LoadAllUsers()
-    {
-        if (File.Exists(fileName))
+        public List<UserInfo> LoadAllUsers()
         {
-            try
-            {
-                string jsonString = File.ReadAllText(fileName);
-                var users = JsonSerializer.Deserialize<List<UserInfo>>(jsonString);
-                return users ?? new List<UserInfo>();
-            }
-            catch (JsonException ex)
-            {
-                AnsiConsole.WriteLine($"[red]Error reading user data file (loading all users from FileSaver): {ex.Message}[/]");
+            if (!File.Exists(filePath))
                 return new List<UserInfo>();
-            }
+
+            string json = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<UserInfo>>(json) ?? new List<UserInfo>();
         }
-        return new List<UserInfo>();
-    }
 
-    private void SaveAllUsers(List<UserInfo> users)
-    {
-        var options = new JsonSerializerOptions { WriteIndented = true };
-        string jsonString = JsonSerializer.Serialize(users, options);
-        File.WriteAllText(fileName, jsonString);
-    }
+        public void SaveUser(UserInfo user)
+        {
+            var users = LoadAllUsers();
+            users.Add(user);
+            File.WriteAllText(filePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
+        }
 
-    public void InitializeWithJaneDoe(UserInfo janeDoe)
-    {
-        SaveAllUsers(new List<UserInfo> { janeDoe });
-        AnsiConsole.WriteLine("[green]Initialized with Jane Doe (JSON array format via FileSaver).[/]");
+        public void UpdateUser(UserInfo updatedUser)
+        {
+            var users = LoadAllUsers();
+            var index = users.FindIndex(u =>
+                u.FirstName.Equals(updatedUser.FirstName, StringComparison.OrdinalIgnoreCase) &&
+                u.LastName.Equals(updatedUser.LastName, StringComparison.OrdinalIgnoreCase)
+            );
+            if (index >= 0)
+                users[index] = updatedUser;
+
+            File.WriteAllText(filePath, JsonSerializer.Serialize(users, new JsonSerializerOptions { WriteIndented = true }));
+        }
+
+        public void InitializeWithJaneDoe(UserInfo janeDoe)
+        {
+            File.WriteAllText(filePath, JsonSerializer.Serialize(new List<UserInfo> { janeDoe }, new JsonSerializerOptions { WriteIndented = true }));
+        }
     }
 }
