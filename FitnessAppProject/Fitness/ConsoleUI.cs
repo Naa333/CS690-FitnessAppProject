@@ -60,8 +60,57 @@ namespace Fitness
         private void HandleUserRegistration()
         {
             AnsiConsole.MarkupLine("[green]Creating a new user...[/]");
-            userManager.RegisterUser();
-            AnsiConsole.MarkupLine("[green]New user created successfully![/]");
+
+            Console.Write("First name: ");
+            string firstName = Console.ReadLine() ?? "";
+            while (string.IsNullOrWhiteSpace(firstName))
+            {
+                AnsiConsole.MarkupLine("[red]First name cannot be empty.[/]");
+                Console.Write("First name: ");
+                firstName = Console.ReadLine() ?? "";
+            }
+
+            Console.Write("Last name: ");
+            string lastName = Console.ReadLine() ?? "";
+
+            int age;
+            Console.Write("Age: ");
+            while (!int.TryParse(Console.ReadLine(), out age))
+            {
+                AnsiConsole.WriteLine("[red]Invalid age. Please enter a number.[/]");
+                Console.Write("Age: ");
+            }
+
+            
+        
+            string gender = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Gender: ")
+                .PageSize(10)
+                .AddChoices(new[] {
+                    "Male",
+                    "Female",
+                    "Prefer not to say"
+                }));
+
+            var existingUser = userManager.CheckIfUserExists(firstName, lastName); // Call a new method in UserManager
+
+            if (existingUser != null)
+            {
+                AnsiConsole.MarkupLine("[red]User with that first and last name already exists![/]");
+            }
+            else
+            {
+                UserInfo? newUser = userManager.RegisterUser(firstName, lastName, age, gender);
+                if (newUser != null)
+                {
+                    AnsiConsole.MarkupLine("[green]New user created successfully![/]");
+                }
+                else
+                {
+                    AnsiConsole.MarkupLine("[red]Failed to create new user.[/]"); // Handle potential save failure
+                }
+            }
         }
 
         private void HandleLogin()
@@ -69,9 +118,9 @@ namespace Fitness
             AnsiConsole.MarkupLine("[green]Logging in...[/]");
             string loginFirstName = AnsiConsole.Ask<string>("Enter your [purple3]first name[/]: ");
             string loginLastName = AnsiConsole.Ask<string>("Enter your [purple3]last name[/]: ");
-            userManager.LoginUser(loginFirstName, loginLastName);
+            UserInfo? user = userManager.LoginUser(loginFirstName, loginLastName);
 
-            if (userManager.GetLoggedInUser() != null)
+            if (user != null)
             {
                 ShowLoggedInMenu();
             }

@@ -31,7 +31,12 @@
     "goalWeight": 0,
     "workoutGoal": "",
     "workoutPlans": [
-      "Jogging"
+      "Jogging",
+      "Morning Yoga",
+      "Pilates",
+      "Running",
+      "Weightlifting",
+      "Swimming"
     ],
     "achievements": []
   },

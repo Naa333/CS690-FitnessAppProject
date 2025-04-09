@@ -35,57 +35,11 @@ public class UserManager
         fileSaver.InitializeWithJaneDoe(janeDoe);
     }
 
-    public UserInfo RegisterUser()
+    public UserInfo? RegisterUser(string firstName, string lastName, int age, string gender)
     {
-        
-        Console.Write("First name: ");
-        string firstName = Console.ReadLine() ?? "";
-        while (string.IsNullOrWhiteSpace(firstName))
-        {
-            AnsiConsole.MarkupLine("[red]First name cannot be empty.[/]");
-            Console.Write("First name: ");
-            firstName = Console.ReadLine() ?? "";
-        }
-        
-        Console.Write("Last name: ");
-        string lastName = Console.ReadLine() ?? "";
-        while (string.IsNullOrWhiteSpace(lastName))
-        {
-            AnsiConsole.MarkupLine("[red]Last name cannot be empty.[/]");
-            Console.Write("Last name: ");
-            lastName = Console.ReadLine() ?? "";
-        }
-
-        int age;
-        Console.Write("Age: ");
-        while (!int.TryParse(Console.ReadLine(), out age))  //error handling for expected integer
-        {
-            AnsiConsole.WriteLine("[red]Invalid age. Please enter a number.[/]");
-            Console.Write("Age: ");
-        }
-        
-        Console.Write("Gender: ");
-        string gender = Console.ReadLine() ?? "";
-        
-
-
-        var existingUser = fileSaver.LoadAllUsers().FirstOrDefault(u =>
-            u.FirstName.Equals(firstName, StringComparison.OrdinalIgnoreCase) &&
-            u.LastName.Equals(lastName, StringComparison.OrdinalIgnoreCase)
-        );
-
-        if (existingUser != null)
-        {
-            AnsiConsole.MarkupLine("[red]User already exists![/]");
-            return existingUser;
-        }
-
-        //create a new user from the entries
-        UserInfo newUser = new UserInfo(firstName, lastName, age, gender); 
-
-        //save 
+        UserInfo newUser = new UserInfo(firstName, lastName, age, gender);
         fileSaver.SaveUser(newUser);
-        return newUser;
+        return newUser; // Return the newly created user
     }
 
     public UserInfo? LoginUser(string loginFirstName, string loginLastName)
@@ -96,13 +50,11 @@ public class UserManager
             user.LastName?.Trim().Equals(loginLastName.Trim(), StringComparison.OrdinalIgnoreCase) == true);
 
         if (loggedInUser != null)
-        {
-            
+        { 
             return loggedInUser;
         }
         else
         {
-            
             return null; 
         }
     }
@@ -115,5 +67,12 @@ public class UserManager
     public void UpdateUser(UserInfo updatedUser)
     {
         fileSaver.UpdateUser(updatedUser);
+    }
+    public UserInfo? CheckIfUserExists(string firstName, string lastName)
+    {
+        return fileSaver.LoadAllUsers().FirstOrDefault(u =>
+            u.FirstName.Equals(firstName, StringComparison.OrdinalIgnoreCase) &&
+            u.LastName.Equals(lastName, StringComparison.OrdinalIgnoreCase)
+        );
     }
 }
