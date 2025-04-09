@@ -33,39 +33,44 @@ public class WorkoutPlan
     // Method to allow a logged-in user to add a workout to their plan
     public bool AddWorkout(UserInfo loggedInUser)
     {
-        if (loggedInUser == null)
-        {
-            AnsiConsole.MarkupLine("[red]No user logged in.[/]");
-            return false;
-        }
-
-        
-
-        if (listOfWorkouts.Count == 0)
-        {
-            AnsiConsole.MarkupLine("[yellow]No workouts available to add.[/]");
-            return false;
-        }
-
-        var workoutChoice = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("[green]Select a workout to add to your plan:[/]")
+        var workoutChoices = AnsiConsole.Prompt(
+            new MultiSelectionPrompt<string>()
+                .Title("[green]Select one or more workouts to add to your plan:[/]")
                 .PageSize(10)
                 .AddChoices(listOfWorkouts)
+                .InstructionsText(
+                    "[grey](Press [blue]<space>[/] to toggle a workout, " +
+                    "[green]<enter>[/] to accept)[/]"
+                )
         );
 
-        if (!string.IsNullOrEmpty(workoutChoice))
-        {
-            loggedInUser.WorkoutPlans.Add(workoutChoice);
-            AnsiConsole.MarkupLine($"[green]'{workoutChoice}' added to your workout plan.[/]");
+        List<string> actuallyAdded = new List<string>();
+        List<string> alreadyPresent = new List<string>();
 
-            return true;
-        }
-        else
+        foreach (var workout in workoutChoices)
         {
-            AnsiConsole.MarkupLine("[yellow]No workout selected.[/]");
-            return false;
+            if (!loggedInUser.WorkoutPlans.Contains(workout, StringComparer.OrdinalIgnoreCase))
+            {
+                loggedInUser.WorkoutPlans.Add(workout);
+                actuallyAdded.Add(workout);
+            }
+            else
+            {
+                alreadyPresent.Add(workout);
+            }
         }
+
+        if (actuallyAdded.Any())
+        {
+            AnsiConsole.MarkupLine($"[green]You added: '{string.Join(", ", actuallyAdded)}' to your workout plan![/]");
+        }
+
+        if (alreadyPresent.Any())
+        {
+            AnsiConsole.MarkupLine($"[yellow]You already have [steelblue]'{string.Join(", ", alreadyPresent)}' [/] in your workout plan.[/]");
+        }
+
+        return actuallyAdded.Any() || alreadyPresent.Any();
     }
     
 }
