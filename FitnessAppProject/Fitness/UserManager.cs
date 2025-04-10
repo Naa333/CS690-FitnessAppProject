@@ -25,8 +25,6 @@ public class UserManager
             "Doe",
             28,
             "Female",
-            165.0,
-            60.0,
             50.0,
             "Maintain fitness",
             new System.Collections.Generic.List<string> { "Full Body Circuit", "Morning Yoga" },
@@ -74,5 +72,10 @@ public class UserManager
             u.FirstName.Equals(firstName, StringComparison.OrdinalIgnoreCase) &&
             u.LastName.Equals(lastName, StringComparison.OrdinalIgnoreCase)
         );
+    }
+
+    public void Logout()
+    {
+        loggedInUser = null;
     }
 }

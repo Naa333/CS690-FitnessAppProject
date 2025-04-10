@@ -20,6 +20,8 @@ namespace Fitness
                 return new List<UserInfo>();
 
             string json = File.ReadAllText(filePath);
+            if (string.IsNullOrWhiteSpace(json)) // <-- add this check
+                return new List<UserInfo>();
             return JsonSerializer.Deserialize<List<UserInfo>>(json) ?? new List<UserInfo>();
         }
 
