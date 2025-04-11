@@ -1,4 +1,4 @@
-namespace Fitness;
+namespace Fitness; 
 
 using System.Collections.Generic;
 using System.Text.Json.Serialization;  //to store user information for future reference
@@ -18,14 +18,8 @@ public class UserInfo  //User information will contain all these fields
     public string Gender { get; set; }
 
     // Workout-related fields
-    [JsonPropertyName("height")]
-    public double Height { get; set; }
-
-    [JsonPropertyName("currentWeight")]
-    public double CurrentWeight { get; set; }
-
-    [JsonPropertyName("goalWeight")]
-    public double GoalWeight { get; set; }
+    [JsonPropertyName("weight")]
+    public double Weight { get; set; }
 
     [JsonPropertyName("workoutGoal")]
     public string WorkoutGoal { get; set; }
@@ -36,17 +30,18 @@ public class UserInfo  //User information will contain all these fields
     [JsonPropertyName("achievements")]
     public List<string> AchievementBadges { get; set; } = new List<string>();
 
+    [JsonPropertyName("workoutLogs")]
+    public List<WorkoutSessionLog> WorkoutLogs { get; set; } = new List<WorkoutSessionLog>();
+
     public UserInfo() { } //empty constructor
 
-    public UserInfo(string firstName, string lastName, int age, string gender, double height = 0, double currentWeight = 0, double goalWeight = 0, string workoutGoal = "", List<string>? workoutPlans = null, List<string>? achievementBadges = null)
+    public UserInfo(string firstName, string lastName, int age, string gender, double weight = 0, string workoutGoal = "", List<string>? workoutPlans = null, List<string>? achievementBadges = null)
     {
         FirstName = firstName;
         LastName = lastName;
         Age = age;
         Gender = gender;
-        Height = height;
-        CurrentWeight = currentWeight;
-        GoalWeight = goalWeight;
+        Weight = weight;
         WorkoutGoal = workoutGoal;
         WorkoutPlans = workoutPlans ?? new List<string>();
         AchievementBadges = achievementBadges ?? new List<string>();

@@ -4,88 +4,166 @@
     "lastName": "Doe",
     "age": 28,
     "gender": "Female",
-    "height": 165,
-    "currentWeight": 60,
-    "goalWeight": 50,
-    "workoutGoal": "Maintain fitness",
+    "weight": 50,
+    "workoutGoal": "Maintain Fitness",
     "workoutPlans": [
-      "Full Body Circuit",
       "Morning Yoga",
-      "Jogging",
-      "Weightlifting",
-      "Running",
-      "Running"
+      "Bodyweight Basics",
+      "Cardio Blast",
+      "Pilates",
+      "Weightlifting"
     ],
     "achievements": [
       "First Workout",
-      "Completed 7 Days"
+      "Completed 7 Days",
+      "WorkoutStreak10"
+    ],
+    "workoutLogs": [
+      {
+        "WorkoutName": "Full Body Circuit",
+        "StartTime": "2025-04-09T23:59:40.753525+00:00",
+        "EndTime": "2025-04-09T23:59:45.7730292+00:00",
+        "Duration": "00:50:11.7025200",
+        "CaloriesBurned": 0
+      },
+      {
+        "WorkoutName": "Jogging",
+        "StartTime": "2025-04-10T00:06:13.6735572+00:00",
+        "EndTime": "2025-04-10T00:06:18.6899445+00:00",
+        "Duration": "00:50:09.8323799",
+        "CaloriesBurned": 0
+      },
+      {
+        "WorkoutName": "Jogging",
+        "StartTime": "2025-04-10T00:14:03.997256+00:00",
+        "EndTime": "2025-04-10T00:22:03.997256+00:00",
+        "Duration": "00:08:00",
+        "CaloriesBurned": 26.666666666666668
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-10T00:16:35.433835+00:00",
+        "EndTime": "2025-04-10T00:46:35.433835+00:00",
+        "Duration": "00:30:00",
+        "CaloriesBurned": 62.5
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-10T00:19:10.6059773+00:00",
+        "EndTime": "2025-04-10T00:49:10.6059773+00:00",
+        "Duration": "00:30:00",
+        "CaloriesBurned": 62.5
+      },
+      {
+        "WorkoutName": "Jogging",
+        "StartTime": "2025-04-10T01:01:31.3356193+00:00",
+        "EndTime": "2025-04-10T01:01:36.3356264+00:00",
+        "Duration": "00:00:05",
+        "CaloriesBurned": 0.2777777777777778
+      },
+      {
+        "WorkoutName": "Jogging",
+        "StartTime": "2025-04-10T01:01:45.8773671+00:00",
+        "EndTime": "2025-04-10T01:03:47.8773685+00:00",
+        "Duration": "00:02:02",
+        "CaloriesBurned": 6.777777777777779
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-10T01:04:15.9437859+00:00",
+        "EndTime": "2025-04-10T01:04:22.0437938+00:00",
+        "Duration": "00:00:06.1000000",
+        "CaloriesBurned": 0.21180555555555555
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-10T01:04:32.9572476+00:00",
+        "EndTime": "2025-04-10T01:05:03.057249+00:00",
+        "Duration": "00:00:30.1000000",
+        "CaloriesBurned": 1.0451388888888888
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-10T01:11:23.6027579+00:00",
+        "EndTime": "2025-04-10T01:11:53.7027592+00:00",
+        "Duration": "00:00:30.1000000",
+        "CaloriesBurned": 1.0451388888888888
+      },
+      {
+        "WorkoutName": "Swimming",
+        "StartTime": "2025-04-10T01:14:54.9204757+00:00",
+        "EndTime": "2025-04-10T01:15:13.0204771+00:00",
+        "Duration": "00:00:18.1000000",
+        "CaloriesBurned": 1.5083333333333333
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-10T01:19:20.6824973+00:00",
+        "EndTime": "2025-04-10T01:20:09.1825066+00:00",
+        "Duration": "00:00:48.5000000",
+        "CaloriesBurned": 1.6840277777777777
+      },
+      {
+        "WorkoutName": "Jogging",
+        "StartTime": "2025-04-10T00:55:12.1944895+00:00",
+        "EndTime": "2025-04-10T01:25:12.1944971+00:00",
+        "Duration": "00:30:00",
+        "CaloriesBurned": 100
+      },
+      {
+        "WorkoutName": "Jogging",
+        "StartTime": "2025-04-10T00:25:39.4946983+00:00",
+        "EndTime": "2025-04-10T01:25:39.4947+00:00",
+        "Duration": "01:00:00",
+        "CaloriesBurned": 200
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-09T23:27:03.8281173+00:00",
+        "EndTime": "2025-04-10T01:27:03.8281245+00:00",
+        "Duration": "02:00:00",
+        "CaloriesBurned": 250
+      },
+      {
+        "WorkoutName": "Jogging",
+        "StartTime": "2025-04-10T21:57:22.6252398+00:00",
+        "EndTime": "2025-04-11T00:57:22.6252476+00:00",
+        "Duration": "03:00:00",
+        "CaloriesBurned": 600
+      }
     ]
   },
   {
     "firstName": "Naa",
     "lastName": "Doku",
-    "age": 27,
+    "age": 23,
     "gender": "Female",
-    "height": 0,
-    "currentWeight": 0,
-    "goalWeight": 0,
-    "workoutGoal": "",
-    "workoutPlans": [
-      "Jogging",
-      "Morning Yoga",
-      "Pilates",
-      "Running",
-      "Weightlifting",
-      "Swimming"
-    ],
-    "achievements": []
-  },
-  {
-    "firstName": "Naa",
-    "lastName": "Doku",
-    "age": 67,
-    "gender": "Female",
-    "height": 0,
-    "currentWeight": 0,
-    "goalWeight": 0,
+    "weight": 0,
     "workoutGoal": "",
     "workoutPlans": [],
-    "achievements": []
+    "achievements": [],
+    "workoutLogs": []
   },
   {
-    "firstName": "Maame Bemaa",
-    "lastName": "Ansong",
-    "age": 45,
-    "gender": "Female",
-    "height": 0,
-    "currentWeight": 0,
-    "goalWeight": 0,
+    "firstName": "Daniel",
+    "lastName": "Gyamfi",
+    "age": 29,
+    "gender": "Male",
+    "weight": 0,
     "workoutGoal": "",
     "workoutPlans": [],
-    "achievements": []
+    "achievements": [],
+    "workoutLogs": []
   },
   {
-    "firstName": "",
-    "lastName": "",
-    "age": 3,
-    "gender": "e",
-    "height": 0,
-    "currentWeight": 0,
-    "goalWeight": 0,
+    "firstName": "Julian",
+    "lastName": "Franz",
+    "age": 43,
+    "gender": "Male",
+    "weight": 0,
     "workoutGoal": "",
     "workoutPlans": [],
-    "achievements": []
-  },
-  {
-    "firstName": "Priscilla",
-    "lastName": "Doku",
-    "age": 34,
-    "gender": "Female",
-    "height": 0,
-    "currentWeight": 0,
-    "goalWeight": 0,
-    "workoutGoal": "",
-    "workoutPlans": [],
-    "achievements": []
+    "achievements": [],
+    "workoutLogs": []
   }
 ]
