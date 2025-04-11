@@ -3,6 +3,7 @@ namespace Fitness;
 using System.Linq;  
 using Spectre.Console;
 
+//this class contains the user profile actions
 public class UserManager
 {
     private string userDataFile = "users.json"; 
@@ -14,11 +15,11 @@ public class UserManager
         fileSaver = new FileSaver(userDataFile);
         if (fileSaver.LoadAllUsers().Count == 0) // Check if the file is empty (no users)
         {
-            InitializeWithJaneDoe();
+            InitializeWithJaneDoe(); //the dummy user
         }
     }
 
-    private void InitializeWithJaneDoe()    //the dummy user
+    private void InitializeWithJaneDoe()    
     {
         UserInfo janeDoe = new UserInfo(
             "Jane",
@@ -37,7 +38,7 @@ public class UserManager
     {
         UserInfo newUser = new UserInfo(firstName, lastName, age, gender);
         fileSaver.SaveUser(newUser);
-        return newUser; // Return the newly created user
+        return newUser; 
     }
 
     public UserInfo? LoginUser(string loginFirstName, string loginLastName)

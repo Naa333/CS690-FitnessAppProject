@@ -1,4 +1,4 @@
-namespace Fitness;
+namespace Fitness; 
 
 using System.Collections.Generic;
 using System.Text.Json.Serialization;  //to store user information for future reference

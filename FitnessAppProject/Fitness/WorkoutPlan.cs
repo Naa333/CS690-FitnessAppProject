@@ -1,9 +1,9 @@
-//should have the type of workout, goals and system suggestions?
 namespace Fitness;
 
 using System.Collections.Generic;
 using Spectre.Console; 
 
+//hosts the types of workouts and how to display and add them
 public class WorkoutPlan
 {
     private static List<string> listOfWorkouts = new List<string>

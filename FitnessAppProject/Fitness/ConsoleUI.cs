@@ -1,16 +1,18 @@
+namespace Fitness;
+
 using Spectre.Console;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Fitness
-{
+    //the UI 
     public class ConsoleUI
     {
         private readonly UserManager userManager = new();
         private readonly WorkoutPlan workoutPlan = new();
         private readonly WorkoutManager workoutManager = new();
 
+        //Assigns estimated MET Values to each workout
         private static readonly Dictionary<string, double> workoutMetValues = new()
         {
             {"Running", 8.0}, {"Jogging", 4.0}, {"Morning Yoga", 2.5},
@@ -18,9 +20,10 @@ namespace Fitness
             {"Cycling", 5.5}, {"Pilates", 3.0}, {"Resistance band training", 3.0},
             {"Bodyweight exercises", 3.5}
         };
-
+        
+        
         public void Show()
-        {
+        {   //Main menu 
             AnsiConsole.WriteLine("\n🏋️ Welcome to the Fitness Program!\n");
             AnsiConsole.WriteLine("---------------------------------------");
 
@@ -51,7 +54,8 @@ namespace Fitness
                 PromptReturnToMenu();
             }
         }
-
+        
+        //main menu methods
         private void HandleUserRegistration()
         {
             AnsiConsole.MarkupLine("[green]--- User Registration ---[/]");
@@ -97,6 +101,7 @@ namespace Fitness
             else AnsiConsole.MarkupLine("[red]❌ Login failed. User not found.[/]");
         }
 
+        //second level menu after login
         private void ShowUserMenu(UserInfo user)
         {
             while (userManager.GetLoggedInUser() != null)
@@ -115,7 +120,7 @@ namespace Fitness
                         ShowWorkoutsMenu(user);
                         break;
                     case "Start a new workout session":
-                        HandleStartWorkoutSession(user);
+                        StartWorkoutSession(user);
                         break;
                     case "Engagement and activity records":
                         ShowEngagementActivityMenu(user);
@@ -131,24 +136,31 @@ namespace Fitness
             }
         }
 
+        //second level menu methods
         private void ShowWorkoutsMenu(UserInfo user)
         {
+            //third level menu
             while (true)
             {
                 var choice = AnsiConsole.Prompt(
                     new SelectionPrompt<string>()
                         .Title("[green]Workout Options[/]")
                         .PageSize(5)
-                        .AddChoices("Add New Workouts", "Set Goal", "Modify Plan", "View Plan", "Back")
+                        .AddChoices("Add a Workout Plan",  "Suggest Workout by Tools", "Set Goal", "Modify Plan", "View Plan", "Back")
                 );
 
                 Console.Clear();
 
                 switch (choice)
                 {
-                    case "Add New Workouts":
+                    case "Add a Workout Plan":
                         workoutPlan.AddWorkout(user);
                         break;
+
+                    case "Suggest Workout by Tools":
+                    HandleSuggestWorkoutByTools(user);
+                    break;
+
                     case "Set Goal":
                         user.WorkoutGoal = AnsiConsole.Prompt(
                             new SelectionPrompt<string>()
@@ -172,40 +184,11 @@ namespace Fitness
             }
         }
 
-        private void HandleModifyWorkoutPlan(UserInfo user)
+        private void StartWorkoutSession(UserInfo user)
         {
             if (!user.WorkoutPlans.Any())
             {
-                AnsiConsole.MarkupLine("[yellow]Your workout plan is currently empty.[/]");
-                return;
-            }
-
-            var toRemove = AnsiConsole.Prompt(
-                new MultiSelectionPrompt<string>()
-                    .Title("[red]Select workouts to remove:[/]")
-                    .PageSize(10)
-                    .AddChoices(user.WorkoutPlans)
-            );
-
-            foreach (var w in toRemove) user.WorkoutPlans.Remove(w);
-            AnsiConsole.MarkupLine($"[green]Removed: {string.Join(", ", toRemove)}[/]");
-        }
-
-        private void HandleViewWorkoutPlan(UserInfo user)
-        {
-            AnsiConsole.MarkupLine("[green]--- Your Workout Plan ---[/]");
-            if (user.WorkoutPlans.Any())
-                user.WorkoutPlans.ForEach(w => AnsiConsole.MarkupLine($"[blue]- {w}[/]"));
-            else
-                AnsiConsole.MarkupLine("[yellow]Your workout plan is empty.[/]");
-            PromptReturnToMenu();
-        }
-
-      private void HandleStartWorkoutSession(UserInfo user)
-        {
-            if (!user.WorkoutPlans.Any())
-            {
-                AnsiConsole.MarkupLine("[yellow]Your workout plan is empty.[/]");
+                AnsiConsole.MarkupLine("[yellow]Your workout plan is empty. Go back to 'Workouts menu' and add a workout to start a session.[/]");
                 PromptReturnToMenu();
                 return;
             }
@@ -270,6 +253,66 @@ namespace Fitness
             PromptReturnToMenu();
         }
 
+        private void ShowEngagementActivityMenu(UserInfo user)
+        {
+            while (true)
+            {
+                var choice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("[green]Engagement and Activity Records[/]")
+                        .PageSize(5)
+                        .AddChoices("View progress report", "View achievement badges", "Back")
+                );
+
+                Console.Clear();
+
+                switch (choice)
+                {
+                    case "View progress report":
+                        HandleViewProgressReport(user);
+                        break;
+                    case "View achievement badges":
+                        HandleViewAchievementBadges(user);
+                        break;
+                    case "Back":
+                        return;
+                }
+
+                
+            }
+        }
+
+        //third level menu methods
+        private void HandleModifyWorkoutPlan(UserInfo user)
+        {
+            if (!user.WorkoutPlans.Any())
+            {
+                AnsiConsole.MarkupLine("[yellow]Your workout plan is currently empty.[/]");
+                return;
+            }
+
+            var toRemove = AnsiConsole.Prompt(
+                new MultiSelectionPrompt<string>()
+                    .Title("[red]Select workouts to remove:[/]")
+                    .PageSize(10)
+                    .AddChoices(user.WorkoutPlans)
+            );
+
+            foreach (var w in toRemove) user.WorkoutPlans.Remove(w);
+            AnsiConsole.MarkupLine($"[green]Removed: {string.Join(", ", toRemove)}[/]");
+        }
+
+        private void HandleViewWorkoutPlan(UserInfo user)
+        {
+            AnsiConsole.MarkupLine("[green]--- Your Workout Plan ---[/]");
+            if (user.WorkoutPlans.Any())
+                user.WorkoutPlans.ForEach(w => AnsiConsole.MarkupLine($"[blue]- {w}[/]"));
+            else
+                AnsiConsole.MarkupLine("[yellow]Your workout plan is empty.[/]");
+            PromptReturnToMenu();
+        }
+
+    
         private void HandleViewProgressReport(UserInfo user)
         {
             AnsiConsole.MarkupLine("[green]--- Your Progress Report ---[/]");
@@ -333,7 +376,69 @@ namespace Fitness
             }
             
         }
+        private void HandleSuggestWorkoutByTools(UserInfo user)
+        {
+            var availableTools = new List<string> { "Yoga mat", "Dumbbells", "Barbells", "Resistance bands", "Treadmill", "Training bench", "Battle ropes", "Squat rack", "None" };
 
+            var selectedTools = AnsiConsole.Prompt(
+                new MultiSelectionPrompt<string>()
+                    .Title("[blue]Select the tools you have available:[/]")
+                    .PageSize(10)
+                    .AddChoices(availableTools)
+                    .InstructionsText("[grey](Press <space> to toggle, <enter> to confirm)[/]")
+            );
+
+            if (selectedTools == null || selectedTools.Count == 0)
+            {
+                AnsiConsole.MarkupLine("[yellow]No tools selected.[/]");
+                PromptReturnToMenu();
+                return;
+            }
+
+            var tools = selectedTools.Any(t => t.Equals("None", StringComparison.OrdinalIgnoreCase))
+                ? new List<string>()
+                : selectedTools;
+
+            var allPossibleWorkouts = workoutManager.GetWorkoutsByTools(tools).ToList();
+            var suggestedWorkouts = allPossibleWorkouts
+                .Where(w => !user.WorkoutPlans.Contains(w.Name))
+                .ToList();
+
+            if (suggestedWorkouts.Any())
+            {
+                var suggestionChoice = AnsiConsole.Prompt(
+                    new SelectionPrompt<string>()
+                        .Title("[green]Suggested Workouts (not in your plan) based on your tools:[/]")
+                        .PageSize(5)
+                        .AddChoices(suggestedWorkouts.Select(w => w.Name).ToList())
+                );
+
+                var selectedWorkout = suggestedWorkouts.FirstOrDefault(w => w.Name == suggestionChoice);
+
+                if (selectedWorkout != null)
+                {
+                    AnsiConsole.MarkupLine($"[green]💡 We suggest: [bold]{selectedWorkout.Name}[/][/]");
+
+                    var addToPlan = AnsiConsole.Confirm("Would you like to add this workout to your plan?");
+                    if (addToPlan)
+                    {
+                        if (!user.WorkoutPlans.Contains(selectedWorkout.Name))
+                        {
+                            user.WorkoutPlans.Add(selectedWorkout.Name);
+                            AnsiConsole.MarkupLine($"[green]✅ '{selectedWorkout.Name}' added to your workout plan.[/]");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                AnsiConsole.MarkupLine("[yellow]No new workouts found that match your selected tools.[/]");
+            }
+
+            PromptReturnToMenu();
+        }
+
+        //create achievement criteria
         public static void GenerateAchievementBadgeDisplay(string achievementId, string achievementName)
         {
             AnsiConsole.Write(new Panel($@"
@@ -359,6 +464,7 @@ namespace Fitness
             // Add more achievement checks later
         }
 
+        //design award badges
         private void AwardAchievement(UserInfo user, string achievementId, string achievementName)
         {
             user.AchievementBadges.Add(achievementId);
@@ -369,38 +475,12 @@ namespace Fitness
             .Header($"[blue]Achievement Unlocked: {achievementId}[/]")
             .Border(BoxBorder.Rounded));
             AnsiConsole.WriteLine();
-            userManager.UpdateUser(user); // Persist the awarded badge
+            userManager.UpdateUser(user); 
         }
 
-        private void ShowEngagementActivityMenu(UserInfo user)
-        {
-            while (true)
-            {
-                var choice = AnsiConsole.Prompt(
-                    new SelectionPrompt<string>()
-                        .Title("[green]Engagement and Activity Records[/]")
-                        .PageSize(5)
-                        .AddChoices("View progress report", "View achievement badges", "Back")
-                );
 
-                Console.Clear();
-
-                switch (choice)
-                {
-                    case "View progress report":
-                        HandleViewProgressReport(user);
-                        break;
-                    case "View achievement badges":
-                        HandleViewAchievementBadges(user);
-                        break;
-                    case "Back":
-                        return;
-                }
-
-                
-            }
-        }
-        // Utility Methods
+      
+        // Validation Methods
 
         private string AskName(string prompt)
         {
@@ -464,4 +544,4 @@ namespace Fitness
             Console.Clear();
         }
     }
-}
+

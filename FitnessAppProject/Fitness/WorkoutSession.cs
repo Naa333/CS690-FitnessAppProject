@@ -1,3 +1,5 @@
+//class to log a workout session
+
 public class WorkoutSessionLog
 {
     public string WorkoutName { get; set; }

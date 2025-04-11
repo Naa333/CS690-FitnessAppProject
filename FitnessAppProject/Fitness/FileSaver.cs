@@ -1,10 +1,12 @@
-// FileSaver.cs
+namespace Fitness;
+
+
 using System.Text.Json;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Fitness
-{
+//saving user information to a JSON file
+
     public class FileSaver
     {
         private string filePath;
@@ -20,7 +22,7 @@ namespace Fitness
                 return new List<UserInfo>();
 
             string json = File.ReadAllText(filePath);
-            if (string.IsNullOrWhiteSpace(json)) // <-- add this check
+            if (string.IsNullOrWhiteSpace(json)) 
                 return new List<UserInfo>();
             return JsonSerializer.Deserialize<List<UserInfo>>(json) ?? new List<UserInfo>();
         }
@@ -50,4 +52,4 @@ namespace Fitness
             File.WriteAllText(filePath, JsonSerializer.Serialize(new List<UserInfo> { janeDoe }, new JsonSerializerOptions { WriteIndented = true }));
         }
     }
-}
+
