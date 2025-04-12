@@ -63,6 +63,7 @@ public class WorkoutManager
         }
 
         return allWorkouts.Where(workout =>
+            workout.RequiredTools.Any() && // Add this condition to exclude no-tool workouts
             workout.RequiredTools.All(tool => tools.Contains(tool, StringComparer.OrdinalIgnoreCase)));
     }
 
@@ -74,6 +75,6 @@ public class WorkoutManager
 
 public class Workout
 {
-    public string Name { get; set; }
+    public string Name { get; set; }  = string.Empty;
     public List<string> RequiredTools { get; set; } = new List<string>();
 }

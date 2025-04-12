@@ -5,12 +5,11 @@
     "age": 28,
     "gender": "Female",
     "weight": 50,
-    "workoutGoal": "Maintain Fitness",
+    "workoutGoal": "Improve Endurance",
     "workoutPlans": [
       "Morning Yoga",
       "Bodyweight Basics",
       "Cardio Blast",
-      "Pilates",
       "Weightlifting"
     ],
     "achievements": [
@@ -130,6 +129,20 @@
         "EndTime": "2025-04-11T00:57:22.6252476+00:00",
         "Duration": "03:00:00",
         "CaloriesBurned": 600
+      },
+      {
+        "WorkoutName": "Cardio Blast",
+        "StartTime": "2025-04-12T00:10:30.0536286+00:00",
+        "EndTime": "2025-04-12T02:10:30.0536363+00:00",
+        "Duration": "02:00:00",
+        "CaloriesBurned": 0
+      },
+      {
+        "WorkoutName": "Bodyweight Basics",
+        "StartTime": "2025-04-12T13:24:36.1077583+00:00",
+        "EndTime": "2025-04-12T14:24:36.1077838+00:00",
+        "Duration": "01:00:00",
+        "CaloriesBurned": 0
       }
     ]
   },
