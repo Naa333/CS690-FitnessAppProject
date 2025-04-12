@@ -10,9 +10,11 @@ public class UserManager
     private UserInfo? loggedInUser = null;
     private FileSaver fileSaver;
 
-    public UserManager()
+    public UserManager(string? userDataFile = null)
     {
-        fileSaver = new FileSaver(userDataFile);
+        string filePath = userDataFile ?? Environment.GetEnvironmentVariable("UserDataFile") ?? "users.json";
+        this.userDataFile = filePath; // Store the resolved file path
+        fileSaver = new FileSaver(filePath);
         if (fileSaver.LoadAllUsers().Count == 0) // Check if the file is empty (no users)
         {
             InitializeWithJaneDoe(); //the dummy user

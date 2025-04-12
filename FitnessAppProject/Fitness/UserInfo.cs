@@ -33,7 +33,13 @@ public class UserInfo  //User information will contain all these fields
     [JsonPropertyName("workoutLogs")]
     public List<WorkoutSessionLog> WorkoutLogs { get; set; } = new List<WorkoutSessionLog>();
 
-    public UserInfo() { } //empty constructor
+    public UserInfo() 
+    {
+        FirstName = string.Empty;
+        LastName = string.Empty;
+        Gender = string.Empty;
+        WorkoutGoal = string.Empty;
+     } 
 
     public UserInfo(string firstName, string lastName, int age, string gender, double weight = 0, string workoutGoal = "", List<string>? workoutPlans = null, List<string>? achievementBadges = null)
     {
