@@ -27,6 +27,25 @@ namespace Fitness.Tests
         }
 
         [Fact]
+        public void GetWorkoutDetails_FullBodyCircuit_ShouldHaveFeedbackForJumpingJacks()
+        {
+            var workout = manager.GetWorkoutDetails("Full Body Circuit");
+            Assert.NotNull(workout);
+            Assert.True(workout.Feedback.ContainsKey("Jumping"));
+            Assert.Contains("Keep your arms and legs moving in sync.", workout.Feedback["Jumping"]);
+            Assert.Contains("Land softly on the balls of your feet.", workout.Feedback["Jumping"]);
+        }
+
+        [Fact]
+        public void GetWorkoutDetails_FullBodyCircuit_ShouldNotHaveFeedbackForResistanceBandRows()
+        {
+            var workout = manager.GetWorkoutDetails("Full Body Circuit");
+            Assert.NotNull(workout);
+            Assert.False(workout.Feedback.ContainsKey("Resistance"));
+
+        }
+
+        [Fact]
         public void GetWorkoutsByTools_WithPartialMatch_ShouldNotReturn()
         {
             var tools = new List<string> { "Dumbbells" };
