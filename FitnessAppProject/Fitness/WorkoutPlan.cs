@@ -6,18 +6,17 @@ using Spectre.Console;
 //hosts the types of workouts and how to display and add them
 public class WorkoutPlan
 {
+    //update the workout list to match the workouts in WorkoutManager
     private static List<string> listOfWorkouts = new List<string>
     {
-        "Running",
-        "Jogging",
+        "Full Body Circuit",
         "Morning Yoga",
-        "Weightlifting",
-        "Swimming",
-        "Brisk walking",
-        "Cycling",
-        "Pilates",
-        "Resistance band training",
-        "Bodyweight exercises"
+        "Strength Training",
+        "Cardio Blast",     
+        "Pilates", 
+        "Dumbbell Workout", 
+        "Resistance Band Exercises",
+        "Bodyweight Basics",
     };
 
     // Method to display available workouts to the user

@@ -15,12 +15,16 @@ using System.Linq;
         //Assigns estimated MET Values to each workout
         private static readonly Dictionary<string, double> workoutMetValues = new()
         {
-            {"Running", 8.0}, {"Jogging", 4.0}, {"Morning Yoga", 2.5},
-            {"Weightlifting", 4.0}, {"Swimming", 6.0}, {"Brisk walking", 3.5},
-            {"Cycling", 5.5}, {"Pilates", 3.0}, {"Resistance band training", 3.0},
-            {"Bodyweight exercises", 3.5}
+            {"Full Body Circuit", 4.0}, 
+            {"Morning Yoga", 2.5},
+            {"Strength Training", 4.0}, 
+            {"Cardio Blast", 8.0},     
+            {"Pilates", 3.0},
+            {"Dumbbell Workout", 4.5}, 
+            {"Resistance Band Exercises", 3.0},
+            {"Bodyweight Basics", 3.5}
+            
         };
-        
         
         public void Show()
         {   //Main menu 
@@ -187,7 +191,7 @@ using System.Linq;
 
         private void StartWorkoutSession(UserInfo user)
         {
-            if (!user.WorkoutPlans.Any())   //cannot display empty plans
+            if (!user.WorkoutPlans.Any())
             {
                 AnsiConsole.MarkupLine("[yellow]Your workout plan is empty. Go back to 'Workouts menu' and add a workout to start a session.[/]");
                 PromptReturnToMenu();
@@ -200,23 +204,25 @@ using System.Linq;
                     .AddChoices(user.WorkoutPlans)
             );
 
-            //ask user to input duration
+            var selectedWorkout = workoutManager.GetWorkoutDetails(workoutName);
+            if (selectedWorkout == null) return; // Handle case where workout details are not found
+
+            // Create a copy of the Feedback dictionary for this session
+            var sessionFeedback = new Dictionary<string, List<string>>(selectedWorkout.Feedback);
             double hours = AnsiConsole.Ask<double>($"[green]Duration for '{workoutName}' in hours (e.g., 1 or 0.5):[/]");
-            
+
             if (hours <= 0)
             {
                 AnsiConsole.MarkupLine("[red]Workout duration must be greater than zero.[/]");
                 PromptReturnToMenu();
                 return;
             }
-
-            // Real workout duration
+            //simulate workout progress
             int totalSeconds = (int)(hours * 3600);
-
-            // Simulated progress bar duration (in milliseconds)
-            int simulationDurationMs = 8000; // 8 seconds total simulation
+            int simulationDurationMs = 8000;
             int simulationSteps = 100;
             int sleepDurationMs = simulationDurationMs / simulationSteps;
+            int instructionsCount = selectedWorkout.Instructions.Count;
 
             AnsiConsole.Progress()
                 .Start(ctx =>
@@ -226,33 +232,59 @@ using System.Linq;
                     {
                         Thread.Sleep(sleepDurationMs);
                         task.Value = (double)i / simulationSteps * 100;
+
+                        // Determine the current instruction based on the progress
+                        int currentInstructionIndex = (int)((double)i / simulationSteps * instructionsCount);
+                        if (currentInstructionIndex < instructionsCount)
+                        {
+                            string currentInstruction = selectedWorkout.Instructions[currentInstructionIndex];
+                            string feedbackKey = GetFeedbackKey(currentInstruction);
+
+                            if (sessionFeedback.TryGetValue(feedbackKey, out var feedbackList))
+                            {
+                                AnsiConsole.MarkupLine("\n[blue]Starting '{0}':[/]", GetExerciseName(currentInstruction));
+                                foreach (var feedback in feedbackList)
+                                {
+                                    AnsiConsole.MarkupLine($"[grey]- {feedback}[/]");
+                                }
+                                // Only show feedback once per instruction
+                                sessionFeedback.Remove(feedbackKey);
+                            }
+                        }
                     }
 
                     TimeSpan workoutDuration = TimeSpan.FromSeconds(totalSeconds);
                     AnsiConsole.MarkupLine($"\n[green]Workout '{workoutName}' completed![/] Duration: [cyan]{workoutDuration:hh\\:mm\\:ss}[/]");
 
-                    // Log the workout session
-                    DateTime startTime = DateTime.Now.AddSeconds(-totalSeconds);
-                    DateTime endTime = DateTime.Now;
-                    double caloriesBurned = workoutMetValues.TryGetValue(workoutName, out var met)
-                        ? met * user.Weight * workoutDuration.TotalHours
-                        : 0;
-
+                    // Create the WorkoutLog entry
                     var logEntry = new WorkoutSessionLog
                     {
+                        StartTime = DateTime.Now,
                         WorkoutName = workoutName,
-                        StartTime = startTime,
-                        EndTime = endTime,
                         Duration = workoutDuration,
-                        CaloriesBurned = caloriesBurned
+                        // Calculate calories burned
+                        CaloriesBurned = workoutMetValues.TryGetValue(workoutName, out var metValue)
+                            ? metValue * user.Weight * (hours / 60.0)
+                            : 0
                     };
-
+                    //add workout logs to user
                     user.WorkoutLogs.Add(logEntry);
                     userManager.UpdateUser(user);
                     CheckAndAwardAchievements(user);
                 });
 
             PromptReturnToMenu();
+        }
+
+        private string GetFeedbackKey(string instruction)
+        {
+            return instruction.Split(' ').FirstOrDefault()?.TrimEnd(',') ?? instruction.TrimEnd(',');
+        }
+
+        private string GetExerciseName(string instruction)
+        {
+            var parts = instruction.Split(':');
+            return parts.Length > 0 ? parts[0].Trim() : instruction.Trim();
         }
 
         private void ShowEngagementActivityMenu(UserInfo user)
@@ -375,7 +407,7 @@ using System.Linq;
                     table.AddRow(
                         log.StartTime.ToString("yyyy-MM-dd"),
                         workoutTypeColored,
-                        $"[cyan]{log.Duration.ToString(@"mm\:ss")}[/]",
+                        $"[cyan]{log.Duration.ToString(@"hh\:mm\:ss")}[/]",
                         $"[magenta]{log.CaloriesBurned:F2}[/]"
                     );
                 }
