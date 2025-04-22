@@ -106,7 +106,7 @@ using System.Linq;
         }
 
         //second level menu after login
-        private async Task ShowUserMenu(UserInfo user)
+        private void ShowUserMenu(UserInfo user)
         {
             while (userManager.GetLoggedInUser() != null)
             {
@@ -401,12 +401,12 @@ using System.Linq;
                         "Running" => $"[green]{log.WorkoutName}[/]",
                         "Jogging" => $"[blue]{log.WorkoutName}[/]",
                         "Weightlifting" => $"[yellow]{log.WorkoutName}[/]",
-                        _ => log.WorkoutName
+                        _ => log.WorkoutName ?? "[grey]Unknown[/]"
                     };
 
                     table.AddRow(
                         log.StartTime.ToString("yyyy-MM-dd"),
-                        workoutTypeColored,
+                        workoutTypeColored ?? "[grey]Unknown[/]",
                         $"[cyan]{log.Duration.ToString(@"hh\:mm\:ss")}[/]",
                         $"[magenta]{log.CaloriesBurned:F2}[/]"
                     );

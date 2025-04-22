@@ -46,6 +46,13 @@
         "EndTime": "0001-01-01T00:00:00",
         "Duration": "00:54:00",
         "CaloriesBurned": 6.000000000000001
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T21:55:21.1019542+00:00",
+        "EndTime": "0001-01-01T00:00:00",
+        "Duration": "02:00:00",
+        "CaloriesBurned": 4.166666666666667
       }
     ]
   }
