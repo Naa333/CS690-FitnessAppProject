@@ -8,7 +8,50 @@ namespace Fitness.Tests
     public class WorkoutManagerTests
     {
         private readonly WorkoutManager manager = new WorkoutManager();
+        [Fact]
+        public void GetWorkoutDetails_ShouldReturnCorrectWorkoutIfExists()
+        {
+            var workout = manager.GetWorkoutDetails("Morning Yoga");
+            Assert.NotNull(workout);
+            Assert.Equal("Morning Yoga", workout.Name);
+            Assert.Contains("Cat-Cow Pose", workout.Instructions.First()); // Check the first instruction
+            Assert.Equal("A gentle yoga flow to start your day with flexibility and mindfulness.", workout.Description);
+            Assert.Contains("Yoga Mat", workout.RequiredTools);
+        }
 
+        [Fact]
+        public void GetWorkoutDetails_ShouldReturnNullIfNotExists()
+        {
+            var workout = manager.GetWorkoutDetails("NonExistentWorkout");
+            Assert.Null(workout);
+        }
+
+        [Fact]
+        public void GetWorkoutsByTools_WithPartialMatch_ShouldNotReturn()
+        {
+            var tools = new List<string> { "Dumbbells" };
+            var workouts = manager.GetWorkoutsByTools(tools).ToList();
+            Assert.Contains(workouts, w => w.Name == "Dumbbell Workout");
+            Assert.DoesNotContain(workouts, w => w.Name == "Full Body Circuit"); // Requires more than just dumbbells
+        }
+
+        [Fact]
+        public void GetWorkoutsByTools_CaseInsensitiveMatch()
+        {
+            var tools = new List<string> { "dumbbells" };
+            var workouts = manager.GetWorkoutsByTools(tools).ToList();
+            Assert.Contains(workouts, w => w.Name == "Dumbbell Workout");
+        }
+
+        [Fact]
+        public void GetWorkoutsByTools_WithNoneTool_ShouldReturnBodyweightOnly()
+        {
+            var workouts = manager.GetWorkoutsByTools(new List<string> { "None" }).ToList();
+            Assert.Contains(workouts, w => w.Name == "Cardio Blast");
+            Assert.Contains(workouts, w => w.Name == "Bodyweight Basics");
+            Assert.DoesNotContain(workouts, w => w.RequiredTools.Any()); // Ensure only no-tool workouts
+        }
+                
         [Fact]
         public void GetAvailableGoals_ShouldReturnExpectedGoals()
         {
@@ -54,5 +97,6 @@ namespace Fitness.Tests
             Assert.Contains(workouts, w => w.Name == "Cardio Blast");
             Assert.Contains(workouts, w => w.Name == "Bodyweight Basics");
         }
+
     }
 }

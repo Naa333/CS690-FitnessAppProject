@@ -102,7 +102,7 @@ using System.Linq;
         }
 
         //second level menu after login
-        private void ShowUserMenu(UserInfo user)
+        private async Task ShowUserMenu(UserInfo user)
         {
             while (userManager.GetLoggedInUser() != null)
             {
@@ -120,7 +120,8 @@ using System.Linq;
                         ShowWorkoutsMenu(user);
                         break;
                     case "Start a new workout session":
-                        StartWorkoutSession(user);
+                        StartWorkoutSession(user); // Ensure you await the completion
+                        // After StartWorkoutSession completes, the loop will continue
                         break;
                     case "Engagement and activity records":
                         ShowEngagementActivityMenu(user);
@@ -130,12 +131,9 @@ using System.Linq;
                         userManager.Logout();
                         return;
                 }
-
                 userManager.UpdateUser(user);
-               
             }
         }
-
         //second level menu methods
         private void ShowWorkoutsMenu(UserInfo user)
         {
@@ -146,7 +144,7 @@ using System.Linq;
                     new SelectionPrompt<string>()
                         .Title("[green]Workout Options[/]")
                         .PageSize(5)
-                        .AddChoices("Add a Workout Plan",  "Suggest Workout by Tools", "Set Goal", "Modify Plan", "View Plan", "Back")
+                        .AddChoices("Add a Workout Plan",  "Suggest Workout by Tools", "Set Goal", "Modify Plan", "View Plan","View Workout Instructions", "Back")
                 );
 
                 Console.Clear();
@@ -175,6 +173,9 @@ using System.Linq;
                     case "View Plan":
                         HandleViewWorkoutPlan(user);
                         break;
+                    case "View Workout Instructions": // New case to call the new method
+                        HandleViewWorkoutInstructions(user);
+                        break;
                     case "Back":
                         return;
                 }
@@ -186,21 +187,22 @@ using System.Linq;
 
         private void StartWorkoutSession(UserInfo user)
         {
-            if (!user.WorkoutPlans.Any())
+            if (!user.WorkoutPlans.Any())   //cannot display empty plans
             {
                 AnsiConsole.MarkupLine("[yellow]Your workout plan is empty. Go back to 'Workouts menu' and add a workout to start a session.[/]");
                 PromptReturnToMenu();
                 return;
             }
 
-            var workout = AnsiConsole.Prompt(
+            var workoutName = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Select a workout to start:")
                     .AddChoices(user.WorkoutPlans)
             );
 
-            double hours = AnsiConsole.Ask<double>($"[green]Duration for '{workout}' in hours (e.g., 1 or 0.5):[/]");
-
+            //ask user to input duration
+            double hours = AnsiConsole.Ask<double>($"[green]Duration for '{workoutName}' in hours (e.g., 1 or 0.5):[/]");
+            
             if (hours <= 0)
             {
                 AnsiConsole.MarkupLine("[red]Workout duration must be greater than zero.[/]");
@@ -219,7 +221,7 @@ using System.Linq;
             AnsiConsole.Progress()
                 .Start(ctx =>
                 {
-                    var task = ctx.AddTask($"[green]{workout}[/]");
+                    var task = ctx.AddTask($"[green]{workoutName}[/]");
                     for (int i = 0; i <= simulationSteps; i++)
                     {
                         Thread.Sleep(sleepDurationMs);
@@ -227,18 +229,18 @@ using System.Linq;
                     }
 
                     TimeSpan workoutDuration = TimeSpan.FromSeconds(totalSeconds);
-                    AnsiConsole.MarkupLine($"\n[green]Workout '{workout}' completed![/] Duration: [cyan]{workoutDuration:hh\\:mm\\:ss}[/]");
+                    AnsiConsole.MarkupLine($"\n[green]Workout '{workoutName}' completed![/] Duration: [cyan]{workoutDuration:hh\\:mm\\:ss}[/]");
 
                     // Log the workout session
                     DateTime startTime = DateTime.Now.AddSeconds(-totalSeconds);
                     DateTime endTime = DateTime.Now;
-                    double caloriesBurned = workoutMetValues.TryGetValue(workout, out var met)
+                    double caloriesBurned = workoutMetValues.TryGetValue(workoutName, out var met)
                         ? met * user.Weight * workoutDuration.TotalHours
                         : 0;
 
                     var logEntry = new WorkoutSessionLog
                     {
-                        WorkoutName = workout,
+                        WorkoutName = workoutName,
                         StartTime = startTime,
                         EndTime = endTime,
                         Duration = workoutDuration,
@@ -312,7 +314,41 @@ using System.Linq;
             PromptReturnToMenu();
         }
 
-    
+        private void HandleViewWorkoutInstructions(UserInfo user)
+        {
+            var allWorkoutsList = workoutManager.GetAllWorkouts().ToList();
+
+            if (!allWorkoutsList.Any())
+            {
+                AnsiConsole.MarkupLine("[yellow]No workouts available to view. Consider adding a workout to your plan.[/]");
+                PromptReturnToMenu();
+                return;
+            }
+
+            var workoutName = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[green]Select a workout to view instructions:[/]")
+                    .AddChoices(allWorkoutsList.Select(w => w.Name))
+                    .PageSize(10)
+            );
+
+            var selectedWorkout = workoutManager.GetWorkoutDetails(workoutName);
+
+            if (selectedWorkout != null)
+            {
+                AnsiConsole.WriteLine();
+                AnsiConsole.MarkupLine($"[underline magenta2_1]{selectedWorkout.Name}[/]");
+                AnsiConsole.MarkupLine($"[grey]Description: {selectedWorkout.Description}[/]");
+                AnsiConsole.WriteLine();
+                AnsiConsole.MarkupLine($"[blue]Instructions:[/]");
+                foreach (var instruction in selectedWorkout.Instructions)
+                {
+                    AnsiConsole.WriteLine($"- {instruction}");
+                }
+            }
+
+            PromptReturnToMenu();
+        }
         private void HandleViewProgressReport(UserInfo user)
         {
             AnsiConsole.MarkupLine("[green]--- Your Progress Report ---[/]");

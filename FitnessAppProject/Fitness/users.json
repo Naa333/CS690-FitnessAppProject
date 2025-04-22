@@ -5,12 +5,14 @@
     "age": 28,
     "gender": "Female",
     "weight": 50,
-    "workoutGoal": "Improve Endurance",
+    "workoutGoal": "Maintain Fitness",
     "workoutPlans": [
       "Morning Yoga",
       "Bodyweight Basics",
       "Cardio Blast",
-      "Weightlifting"
+      "Swimming",
+      "Cycling",
+      "Pilates"
     ],
     "achievements": [
       "First Workout",
@@ -143,6 +145,69 @@
         "EndTime": "2025-04-12T14:24:36.1077838+00:00",
         "Duration": "01:00:00",
         "CaloriesBurned": 0
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T00:34:11.3327593+00:00",
+        "EndTime": "2025-04-22T00:35:51.3992126+00:00",
+        "Duration": "00:01:39",
+        "CaloriesBurned": 3.4375
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T00:36:20.0207649+00:00",
+        "EndTime": "2025-04-22T00:36:20.026267+00:00",
+        "Duration": "20:00:00",
+        "CaloriesBurned": 2500
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T00:37:24.4729592+00:00",
+        "EndTime": "2025-04-22T00:37:43.5007194+00:00",
+        "Duration": "20:00:00",
+        "CaloriesBurned": 2500
+      },
+      {
+        "WorkoutName": "Bodyweight Basics",
+        "StartTime": "2025-04-22T00:58:03.2838048+00:00",
+        "EndTime": "2025-04-22T00:58:49.3227772+00:00",
+        "Duration": "20:00:00",
+        "CaloriesBurned": 0
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T01:02:00.3360543+00:00",
+        "EndTime": "2025-04-22T01:02:00.338246+00:00",
+        "Duration": "20:00:00",
+        "CaloriesBurned": 2500
+      },
+      {
+        "WorkoutName": "Bodyweight Basics",
+        "StartTime": "2025-04-22T15:25:53.7710223+00:00",
+        "EndTime": "2025-04-22T15:27:12.8131285+00:00",
+        "Duration": "00:01:00",
+        "CaloriesBurned": 0
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T16:12:03.2953989+00:00",
+        "EndTime": "2025-04-22T16:12:51.3255009+00:00",
+        "Duration": "00:02:00",
+        "CaloriesBurned": 4.166666666666667
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T15:43:55.1053207+00:00",
+        "EndTime": "2025-04-22T16:43:55.1053282+00:00",
+        "Duration": "01:00:00",
+        "CaloriesBurned": 125
+      },
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-22T15:01:43.372219+00:00",
+        "EndTime": "2025-04-22T17:01:43.3722268+00:00",
+        "Duration": "02:00:00",
+        "CaloriesBurned": 250
       }
     ]
   },
