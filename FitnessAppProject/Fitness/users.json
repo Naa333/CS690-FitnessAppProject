@@ -7,11 +7,8 @@
     "weight": 50,
     "workoutGoal": "Maintain fitness",
     "workoutPlans": [
-      "Full Body Circuit",
-      "Morning Yoga",
-      "Cardio Blast",
       "Pilates",
-      "Dumbbell Workout"
+      "Morning Yoga"
     ],
     "achievements": [
       "First Workout",
@@ -53,6 +50,57 @@
         "EndTime": "0001-01-01T00:00:00",
         "Duration": "02:00:00",
         "CaloriesBurned": 4.166666666666667
+      },
+      {
+        "WorkoutName": "Pilates",
+        "StartTime": "2025-04-25T05:16:47.8465786+00:00",
+        "EndTime": "0001-01-01T00:00:00",
+        "Duration": "03:00:00",
+        "CaloriesBurned": 7.5
+      },
+      {
+        "WorkoutName": "Pilates",
+        "StartTime": "2025-04-25T05:56:49.5790616+00:00",
+        "EndTime": "0001-01-01T00:00:00",
+        "Duration": "01:00:00",
+        "CaloriesBurned": 2.5
+      }
+    ]
+  },
+  {
+    "firstName": "Julian",
+    "lastName": "Micheels",
+    "age": 29,
+    "gender": "Male",
+    "weight": 0,
+    "workoutGoal": "",
+    "workoutPlans": [],
+    "achievements": [],
+    "workoutLogs": []
+  },
+  {
+    "firstName": "Ophelia",
+    "lastName": "Buina",
+    "age": 27,
+    "gender": "Female",
+    "weight": 49.89512,
+    "workoutGoal": "Improve Endurance",
+    "workoutPlans": [
+      "Morning Yoga",
+      "Squat Rack Workout",
+      "Cardio Blast",
+      "Full Body Circuit"
+    ],
+    "achievements": [
+      "FirstWorkout"
+    ],
+    "workoutLogs": [
+      {
+        "WorkoutName": "Morning Yoga",
+        "StartTime": "2025-04-25T03:50:33.5539326+00:00",
+        "EndTime": "0001-01-01T00:00:00",
+        "Duration": "02:00:00",
+        "CaloriesBurned": 4.1579266666666665
       }
     ]
   }

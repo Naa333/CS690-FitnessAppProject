@@ -65,6 +65,13 @@ using System.Linq;
             AnsiConsole.MarkupLine("[green]--- User Registration ---[/]");
             string firstName = AskName("First name: ");
             string lastName = AskName("Last name: ");
+
+            if (userManager.CheckIfUserExists(firstName, lastName) != null)
+            {
+                AnsiConsole.MarkupLine("[red]User with this name already exists![/]");
+                return;
+            }
+
             int age = AskInt("Age: ", 10, 120, "Please enter a valid age (10-120).");
 
             string gender = AnsiConsole.Prompt(
@@ -73,22 +80,32 @@ using System.Linq;
                     .AddChoices("Male", "Female", "Prefer not to say")
             );
 
-            double weight = AskPositiveDouble("Enter your current weight in lbs/kg: ");
+            // Add weight check here
+            double weight_unknown_unit = AskPositiveDouble("Enter your current weight: ");
+            string weightUnit = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("Select your weight unit:")
+                    .AddChoices("lbs", "kg")
+            );
 
-            workoutManager.DisplayAvailableGoals();
+            // Convert weight to kg
+            double weight = weight_unknown_unit;
+            if (weightUnit.ToLower() == "lbs")
+            {
+                weight = weight_unknown_unit * 0.453592;
+            }
+
+            // Now 'weightKg' holds the weight in kilograms
+
             var goal = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("Select your workout goal:")
                     .AddChoices(workoutManager.GetAvailableGoals())
             );
 
-            if (userManager.CheckIfUserExists(firstName, lastName) != null)
-            {
-                AnsiConsole.MarkupLine("[red]User with this name already exists![/]");
-                return;
-            }
+            
 
-            var user = userManager.RegisterUser(firstName, lastName, age, gender);
+            var user = userManager.RegisterUser(firstName, lastName, age, gender, weight, goal);
             AnsiConsole.MarkupLine(user != null
                 ? "[green]✅ User registered successfully![/]"
                 : "[red]❌ Registration failed.[/]");
