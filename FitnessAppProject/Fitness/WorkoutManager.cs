@@ -17,7 +17,7 @@ public class WorkoutManager
     //extend workout selection by tools to include descriptions and instructions
    private readonly List<Workout> allWorkouts = new List<Workout>()
     {
-        new Workout 
+        new Workout
         {
             Name = "Full Body Circuit",
             RequiredTools = new List<string> { "Dumbbells", "Resistance Bands", "Yoga Mat" },
@@ -40,8 +40,7 @@ public class WorkoutManager
                 {"Dumbbell", new List<string>{"Keep your back straight.", "Lower your hips as if sitting in a chair.", "Ensure your knees don't go past your toes."}},
                 {"Push", new List<string>{"Do not flare your elbows"}}
             }
-        },   
-    
+        },
         new Workout {
             Name = "Morning Yoga",
             RequiredTools = new List<string> { "Yoga Mat" },
@@ -50,8 +49,7 @@ public class WorkoutManager
             {
                 "Cat-Cow Pose (5 breaths).",
                 "Downward-Facing Dog (5 breaths).",
-                "Warrior I (3 breaths per side).",
-                
+                "Warrior I (3 breaths per side)."
             },
             Feedback = new Dictionary<string, List<string>>
             {
@@ -68,7 +66,7 @@ public class WorkoutManager
             {
                 "Barbell Squats: 3 sets of 5-8 reps.",
                 "Bench Press: 3 sets of 5-8 reps.",
-                "Barbell Rows: 3 sets of 5-8 reps.",
+                "Barbell Rows: 3 sets of 5-8 reps."
             },
             Feedback = new Dictionary<string, List<string>>
             {
@@ -85,7 +83,7 @@ public class WorkoutManager
             {
                 "Jumping Jacks (30 seconds).",
                 "High Knees (30 seconds).",
-                "Burpees (30 seconds).",
+                "Burpees (30 seconds)."
             },
             Feedback = new Dictionary<string, List<string>>
             {
@@ -102,8 +100,7 @@ public class WorkoutManager
             {
                 "The Hundred (10 reps).",
                 "Roll-Up (5 reps).",
-                "Single Leg Circles (5 per leg).",
-                // ... more exercises ...
+                "Single Leg Circles (5 per leg)."
             },
             Feedback = new Dictionary<string, List<string>>
             {
@@ -120,7 +117,7 @@ public class WorkoutManager
             {
                 "Dumbbell Bicep Curls: 3 sets of 10-12 reps.",
                 "Dumbbell Shoulder Press: 3 sets of 8-10 reps.",
-                "Dumbbell Chest Press: 3 sets of 10-12 reps.",
+                "Dumbbell Chest Press: 3 sets of 10-12 reps."
             },
             Feedback = new Dictionary<string, List<string>>
             {
@@ -137,7 +134,7 @@ public class WorkoutManager
             {
                 "Banded Glute Bridges: 3 sets of 15-20 reps.",
                 "Banded Lateral Walks: 3 sets of 10-12 steps per side.",
-                "Banded Bicep Curls: 3 sets of 12-15 reps.",
+                "Banded Bicep Curls: 3 sets of 12-15 reps."
             },
             Feedback = new Dictionary<string, List<string>>
             {
@@ -155,8 +152,7 @@ public class WorkoutManager
                 "Squats: 3 sets of 10-15 reps.",
                 "Push-ups (on knees if needed): 3 sets to failure.",
                 "Lunges (per leg): 3 sets of 10-12 reps.",
-                "Plank: 3 sets, hold for 20-45 seconds.",
-                // ... more exercises ...
+                "Plank: 3 sets, hold for 20-45 seconds."
             },
             Feedback = new Dictionary<string, List<string>>
             {
@@ -164,6 +160,17 @@ public class WorkoutManager
                 {"Push-ups", new List<string>{"Engage your core."}},
                 {"Lunges", new List<string>{"Ensure your front knee doesn't go past your toes."}},
                 {"Plank", new List<string>{"Avoid letting your hips drop or rise too high."}}
+            }
+        },
+         new Workout {
+            Name = "Squat Rack Workout",
+            RequiredTools = new List<string> {"Squat rack", "Barbells"},
+            Description = "A focused strength workout using a squat rack and barbells.",
+            Instructions = new List<string> { "Barbell Squats: 3 sets of 5-8 reps.", "Overhead Press: 3 sets of 5-8 reps." },
+            Feedback = new Dictionary<string, List<string>>
+            {
+                {"Barbell Squats", new List<string>{"Maintain a straight back.", "Go to a comfortable depth."}},
+                {"Overhead Press", new List<string>{"Control the weight throughout the movement.", "Keep your core engaged."}}
             }
         }
     };
@@ -204,14 +211,13 @@ public class WorkoutManager
     {
         if (tools == null || !tools.Any() || tools.Contains("None", StringComparer.OrdinalIgnoreCase))
         {
-            return allWorkouts.Where(w => !w.RequiredTools.Any()); // Suggest bodyweight or no-tool workouts
+            return allWorkouts.Where(w => !w.RequiredTools.Any() || (w.RequiredTools.Contains("None", StringComparer.OrdinalIgnoreCase) && tools != null && tools.Contains("None", StringComparer.OrdinalIgnoreCase)));
         }
 
         return allWorkouts.Where(workout =>
-            workout.RequiredTools.Any() && // Add this condition to exclude no-tool workouts
+            workout.RequiredTools.Any() && // Ensure the workout requires at least one tool
             workout.RequiredTools.All(tool => tools.Contains(tool, StringComparer.OrdinalIgnoreCase)));
     }
-
     public IEnumerable<Workout> GetAllWorkouts()
     {
         return allWorkouts;
@@ -220,7 +226,7 @@ public class WorkoutManager
 
 public class Workout
 {
-    public string Name { get; set; }  = string.Empty;
+    public string Name { get; set; } = string.Empty;
     public List<string> RequiredTools { get; set; } = new List<string>();
     public List<string> Instructions { get; set; } = new List<string>();
     public string Description { get; set; } = string.Empty;

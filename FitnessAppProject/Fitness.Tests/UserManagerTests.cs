@@ -24,19 +24,21 @@ public class UserManagerTests : IDisposable
     [Fact]
     public void RegisterUser_ShouldAddNewUser()
     {
-        var user = userManager.RegisterUser("John", "Doe", 30, "Male");
+        var user = userManager.RegisterUser("John", "Doe", 30, "Male", 80.5, "Build Muscle");
 
         Assert.NotNull(user);
         Assert.Equal("John", user.FirstName);
         Assert.Equal("Doe", user.LastName);
         Assert.Equal(30, user.Age);
         Assert.Equal("Male", user.Gender);
+        Assert.Equal(80.5, user.Weight);
+        Assert.Equal("Build Muscle", user.WorkoutGoal);
     }
 
     [Fact]
     public void LoginUser_ShouldReturnUser_WhenCredentialsMatch()
     {
-        userManager.RegisterUser("Alice", "Smith", 25, "Female");
+        userManager.RegisterUser("Alice", "Smith", 25, "Female", 60.0, "Lose Weight");
 
         var loggedIn = userManager.LoginUser("Alice", "Smith");
 
@@ -56,7 +58,7 @@ public class UserManagerTests : IDisposable
     [Fact]
     public void GetLoggedInUser_ShouldReturnUser_AfterLogin()
     {
-        userManager.RegisterUser("Tom", "Hanks", 50, "Male");
+        userManager.RegisterUser("Tom", "Hanks", 50, "Male", 90.0, "Maintain Fitness");
         userManager.LoginUser("Tom", "Hanks");
 
         var loggedIn = userManager.GetLoggedInUser();
@@ -68,7 +70,7 @@ public class UserManagerTests : IDisposable
     [Fact]
     public void Logout_ShouldClearLoggedInUser()
     {
-        userManager.RegisterUser("Eva", "Green", 35, "Female");
+        userManager.RegisterUser("Eva", "Green", 35, "Female", 55.0, "Improve Endurance");
         userManager.LoginUser("Eva", "Green");
 
         userManager.Logout();
@@ -80,7 +82,7 @@ public class UserManagerTests : IDisposable
     [Fact]
     public void CheckIfUserExists_ShouldReturnUser_IfExists()
     {
-        userManager.RegisterUser("Mia", "Wong", 22, "Female");
+        userManager.RegisterUser("Mia", "Wong", 22, "Female", 62.0, "Lose Weight");
 
         var exists = userManager.CheckIfUserExists("Mia", "Wong");
 
@@ -97,20 +99,21 @@ public class UserManagerTests : IDisposable
     }
 
     [Fact]
-    
-    public void UpdateUser_ShouldChangeUserData()
+    public void UpdateUser_ShouldChangeUserDataIncludingWeightAndGoal()
     {
-        var user = userManager.RegisterUser("Bob", "Marley", 36, "Male");
+        var user = userManager.RegisterUser("Bob", "Marley", 36, "Male", 70.0, "Build Muscle");
 
         // Add a null check here to satisfy the compiler
         if (user != null)
         {
             user.Weight = 65.0;
+            user.WorkoutGoal = "Lose Weight";
             userManager.UpdateUser(user);
 
             var reloaded = userManager.LoginUser("Bob", "Marley");
             Assert.NotNull(reloaded);
             Assert.Equal(65.0, reloaded.Weight);
+            Assert.Equal("Lose Weight", reloaded.WorkoutGoal);
         }
         else
         {
@@ -125,5 +128,6 @@ public class UserManagerTests : IDisposable
         Assert.NotNull(jane);
         Assert.Equal("Jane", jane?.FirstName);
         Assert.Equal("Doe", jane?.LastName);
+        // We don't check weight and goal here as it's part of the initial setup.
     }
 }

@@ -36,9 +36,9 @@ public class UserManager
         fileSaver.InitializeWithJaneDoe(janeDoe);
     }
 
-    public UserInfo? RegisterUser(string firstName, string lastName, int age, string gender)
+    public UserInfo? RegisterUser(string firstName, string lastName, int age, string gender, double weight, string goal)
     {
-        UserInfo newUser = new UserInfo(firstName, lastName, age, gender);
+        UserInfo newUser = new UserInfo(firstName, lastName, age, gender, weight, goal);
         fileSaver.SaveUser(newUser);
         return newUser; 
     }
